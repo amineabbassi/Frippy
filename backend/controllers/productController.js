@@ -54,10 +54,15 @@ const addProduct = async (req, res) => {
   }
 };
 
-// INFO: Route for fetching all products
+// INFO: Route for fetching all products (with search support)
 const listProducts = async (req, res) => {
   try {
-    const products = await productModel.find({});
+    const { search } = req.query;
+    let query = {};
+    if (search) {
+      query.name = { $regex: search, $options: "i" }; // case-insensitive, partial match
+    }
+    const products = await productModel.find(query);
     res.status(200).json({ success: true, products });
   } catch (error) {
     console.log("Error while fetching all products: ", error);

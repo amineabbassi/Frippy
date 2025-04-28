@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 import userModel from "../models/userModel.js";
+import User from "../models/userModel.js";
 
 // INFO: Function to create token
 const createToken = (id) => {
@@ -95,7 +96,11 @@ const loginAdmin = async (req, res) => {
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      // Generate a token with a structured payload
+      const token = jwt.sign(
+        { email, role: "admin" }, // Structured payload
+        process.env.JWT_SECRET
+      );
 
       res.status(200).json({ success: true, token });
     } else {
@@ -105,6 +110,25 @@ const loginAdmin = async (req, res) => {
     }
   } catch (error) {
     console.log("Error while logging in admin: ", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getUserDetails = async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) {
+      return res.status(400).json({ success: false, message: "Email is required." });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("Error fetching user details:", error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };

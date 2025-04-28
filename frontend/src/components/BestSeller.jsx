@@ -7,10 +7,11 @@ const BestSeller = () => {
   const { products } = useContext(ShopContext);
   const [bestSeller, setBestSeller] = useState([]);
 
+  // Dynamically update best sellers whenever the products array changes
   useEffect(() => {
-    const bestProduct = products.filter((item) => item.bestseller);
-    setBestSeller(bestProduct.slice(0, 5));
-  }, []);
+    const bestProduct = products.filter((item) => item.bestSeller); // Use `bestSeller` instead of `bestseller`
+    setBestSeller(bestProduct.slice(0, 5)); // Limit to top 5 best sellers
+  }, [products]); // Re-run whenever `products` changes
 
   return (
     <div className="my-10">

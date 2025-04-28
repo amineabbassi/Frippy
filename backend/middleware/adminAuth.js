@@ -2,22 +2,30 @@ import jwt from "jsonwebtoken";
 
 const adminAuth = async (req, res, next) => {
   try {
-    const { token } = req.headers;
+    const authHeader = req.headers.authorization;
+    console.log("Authorization Header:", authHeader); // Debugging line
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: "Authorization header missing" });
+    }
+
+    const token = authHeader.split(' ')[1];
+    console.log("Token:", token); // Debugging line
 
     if (!token) {
-      return res.status(401).json({ success: false, message: "Unauthorized!" });
+      return res.status(401).json({ success: false, message: "Token missing" });
     }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decodedToken !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
-      return res.status(401).json({ success: false, message: "Unauthorized!" });
-    }
-
-    next();
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        console.error("JWT Verification Error:", err); // Debugging line
+        return res.status(401).json({ success: false, message: "Invalid token" });
+      }
+      next();
+    });
   } catch (error) {
-    console.log("Error while authenticating admin: ", error);
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Auth error:", error);
+    res.status(401).json({ success: false, message: "Invalid token" });
   }
 };
 
