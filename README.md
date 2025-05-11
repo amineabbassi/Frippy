@@ -1,6 +1,14 @@
-# 🛒 MERN E-Commerce Website
+# 🛒 Frippy E-Commerce Website
 
-Welcome to the **MERN E-Commerce Website**! This project is a feature-rich e-commerce application built using the powerful MERN stack, complete with an intuitive user-facing store and an all-encompassing admin dashboard.
+Welcome to the **Frippy E-Commerce Website**! This project is a feature-rich e-commerce application built using the powerful MERN stack, complete with an intuitive user-facing store and an all-encompassing admin dashboard.
+
+> 🏁 **This application was developed as part of our end-of-year academic project by the following team members:**
+>
+> - **Amira Tayssir**  
+> - **Ait Brahim Wissal**  
+> - **Rezgui Malek**  
+> - **Torkhani Nour Amal**  
+> - **Skik Mohamed Yassine**
 
 ## ✨ Features
 
@@ -90,9 +98,9 @@ CLOUDINARY_CLOUD_NAME =
 
 JWT_SECRET =
 
-ADMIN_EMAIL = "admin@trendify.com" #For testing only
+ADMIN_EMAIL = "admin@admin.com" #For testing only
 
-ADMIN_PASSWORD = "admin@123" #For testing only
+ADMIN_PASSWORD = "admin" #For testing only
 
 ```
 
@@ -143,6 +151,6 @@ npm run dev
 
 Open [http://localhost:5174](http://localhost:5174) in your browser to view the admin dashboard.
 
-Open [http://localhost:400](http://localhost:400) in your browser to run the backend.
+Open [http://localhost:400](http://localhost:4000) in your browser to run the backend.
 
 Open [http://localhost:5173](http://localhost:5173) in your browser to view the frontend project.
